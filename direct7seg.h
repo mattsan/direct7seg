@@ -26,14 +26,16 @@ struct D7SegLevel<CathodeCommon>
 
 template<typename DEVICE_TYPE>
 struct D7SegConstant {
-  static const byte Digits[16];
+  static const byte Digits[];
 
   static const bool Enable = D7SegLevel<DEVICE_TYPE>::Enable;
   static const bool Disable = D7SegLevel<DEVICE_TYPE>::Disable;
+
+  static const int Blank = 16;
 };
 
 template<typename DEVICE_TYPE>
-const byte D7SegConstant<DEVICE_TYPE>::Digits[16] = {
+const byte D7SegConstant<DEVICE_TYPE>::Digits[] = {
   D7SegBits<B00111111, DEVICE_TYPE>::value, // 0
   D7SegBits<B00000110, DEVICE_TYPE>::value, // 1
   D7SegBits<B01011011, DEVICE_TYPE>::value, // 2
@@ -49,7 +51,8 @@ const byte D7SegConstant<DEVICE_TYPE>::Digits[16] = {
   D7SegBits<B00111001, DEVICE_TYPE>::value, // C
   D7SegBits<B01011110, DEVICE_TYPE>::value, // d
   D7SegBits<B01111001, DEVICE_TYPE>::value, // E
-  D7SegBits<B01110001, DEVICE_TYPE>::value  // F
+  D7SegBits<B01110001, DEVICE_TYPE>::value, // F
+  D7SegBits<B00000000, DEVICE_TYPE>::value  // Blank
 };
 
 template<int FIG1_PIN, int FIG2_PIN, typename DEVICE_TYPE>
@@ -80,6 +83,10 @@ public:
     byte fig2 = value % 16;
 
     showSegments(Constant::Digits[fig1] ^ dotBit(dot1), Constant::Digits[fig2] ^ dotBit(dot2), interval);
+  }
+
+  void blankOut(unsigned long interval = 0) const {
+    showSegments(Constant::Blank, Constant::Blank, interval);
   }
 
   void showSegments(byte fig1, byte fig2, unsigned long interval = 0) const {
