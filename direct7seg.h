@@ -14,14 +14,14 @@ template<typename DEVICE_TYPE> struct D7SegLevel;
 template<>
 struct D7SegLevel<AnodeCommon>
 {
-  static const bool Enable = false;
-  static const bool Disable = true;
+  static const bool Enable = LOW;
+  static const bool Disable = HIGH;
 };
 template<>
 struct D7SegLevel<CathodeCommon>
 {
-  static const bool Enable = true;
-  static const bool Disable = false;
+  static const bool Enable = HIGH;
+  static const bool Disable = LOW;
 };
 
 template<typename DEVICE_TYPE>
